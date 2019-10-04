@@ -1,0 +1,1 @@
+Program name: /mnt/d/VM/progc_selbststudium/progc/lab01-hello-world/bin/hello-world

@@ -1,0 +1,13 @@
+Integer-Arithmetik
+unsigned:    1 (0x01)
+  signed:    1 (0x01)
+    +255:    0 (0x00)
+   one's:   -2 (0xfe)
+   two's:   -1 (0xff)
+Bit-Manipulation
+                     dec  hex   oct
+Your input        :    1  0x01  0001
+bit 0 is set.
+bit 0 cleared     :    0  0x00  0000
+bit 0 set         :    1  0x01  0001
+bit 0 flipped     :    0  0x00  0000

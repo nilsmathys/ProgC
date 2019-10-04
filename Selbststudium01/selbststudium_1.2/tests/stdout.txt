@@ -1,0 +1,3 @@
+Sentence  : Test Test Test
+Characters: 14
+Words     : 3
