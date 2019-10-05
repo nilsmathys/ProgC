@@ -36,6 +36,12 @@ static size_t read_input_line(char word[]) {
     return index-1; //-1 wegen des line break
 }
 
+/**
+ * @brief Liest den Input vom Terminal und speichert diese im gegebenen Array
+ *      bis der Benutzer den ABORT_KEY benützt falls ein Wort mehr als 20 Zeichen hat gibt es einen Fehler aus
+ * @param wordlist Array der mit den Inputs gefüllt wird
+ * @return die Anzahl von Einträgern im Array wordlist
+ */
 static size_t read_input(char *wordlist[]) {
     char word[WORD_LENGTH_BUFFER];
     size_t word_count = 0;
@@ -58,6 +64,11 @@ static size_t read_input(char *wordlist[]) {
     return word_count;
 }
 
+/**
+ * @brief gibt die Liste der Wörter aus
+ * @param wordlist die Liste die ausgegeben werden soll
+ * @param size die Grösse der wordlist
+ */
 static void print_wordlist(char *wordlist[], size_t size) {
     (void)printf("-------------------------------------\n");
     (void)printf("Wörter in sortierter Reihenfolge:\n\n");
@@ -67,6 +78,10 @@ static void print_wordlist(char *wordlist[], size_t size) {
     (void)printf("-------------------------------------\n");
 }
 
+/**
+ * @brief Main entry point
+ * @return Gibt EXISS_SUCCESS (=0) zurück bei success
+ */
 int main(void) {
     char *wordlist[INPUT_BUFFER];
     size_t word_count = read_input(wordlist);
