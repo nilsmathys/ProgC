@@ -1,1 +1,0 @@
-sh: 1: /home/nils/progc/Selbststudium04/bin/Selbststudium04: not found

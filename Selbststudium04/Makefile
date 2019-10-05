@@ -1,8 +1,8 @@
 # what to produce
-TARGET        := bin/Selbststudium04
+TARGET        := bin/Selbststudium042
 
 # implementation files
-SOURCES       := src/main.c src/array.c
+SOURCES       := src/main.c
 
 # test implementations
 TSTSOURCES    := tests/tests.c

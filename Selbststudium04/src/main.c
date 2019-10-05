@@ -1,92 +1,152 @@
-/*
+/**
  * title: Selbststudium 04 - Pointer, Arrays, Strings
  * created by Nils Mathys
- * date: 25.09.2019
+ * date: 05.10.2019
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "array.h"
 
-///@brief Die Grösse des Input Arrays
-#define INPUT_BUFFER 100
-///@brief Die Grösse die ein Input maximal haben kann
-#define WORD_LENGTH_BUFFER 20
-///@brief der Schlüssel um die Eingabe zu beenden
+#include "main.h"
+
 #define ABORT_KEY "ZZZ"
 
 /**
- * @brief Liest ein Wort von der input line. Speichert nur die Wörter
- *      die in der Range des WORD_LENGTH_BUFFER liegen.
- * @param word der Array bei dem die Inputs gespeichert werden sollen. \0 wird automatisch immer mitgespeichert
- * @return Die Grösse des ganzen Inputs auch wenn nicht das ganze Wort gespeichert wurde
+ * @brief Main entry point.
+ * @details ermöglicht das Lesen der Wörter, auswerten der Wörter, das Überprüfen, ob sie bereits vorhanden sind
+ * überprüft ob beendet wurde sortiert der array und druckt den array
+ * @returns Returns EXIT_SUCCESS (=0) bei success,
+ *                  EXIT_FAILURE (=1) wenn mer als ein Argument gegeben ist.
  */
-static size_t read_input_line(char word[]) {
-    initialize_array_to_zero(word, WORD_LENGTH_BUFFER);
-    size_t index = 0;
-    char input = 0;
-    while (input != '\n') {
-        input = getchar();
-        if(input != '\n' && index < WORD_LENGTH_BUFFER-1) {
-            word[index] = input;
+int main(int argc, char *argv[]) {
+    int size = 0;
+    char *wordlist[WORDLIST_COUNT] = {0};
+
+    while (size < WORDLIST_COUNT) {
+        char *word = get_word();
+        if (word == NULL) {
+            return EXIT_FAILURE;
         }
-        index++;
-    }
-    return index-1; //-1 wegen des line break
-}
 
-/**
- * @brief Liest den Input vom Terminal und speichert diese im gegebenen Array
- *      bis der Benutzer den ABORT_KEY benützt falls ein Wort mehr als 20 Zeichen hat gibt es einen Fehler aus
- * @param wordlist Array der mit den Inputs gefüllt wird
- * @return die Anzahl von Einträgern im Array wordlist
- */
-static size_t read_input(char *wordlist[]) {
-    char word[WORD_LENGTH_BUFFER];
-    size_t word_count = 0;
-    boolean cont = true;
-    char abort_key[] = ABORT_KEY;
-
-    while(cont) {
-        int word_size = read_input_line(word);
-
-        if(word_size >= WORD_LENGTH_BUFFER) {
-            (void)printf("Bitte geben Sie maximal %d Zeichen pro Wort ein \n", WORD_LENGTH_BUFFER -1);
-        } else {
-            if(strcmp(word, abort_key) == 0) {
-                cont = false;
-            } else {
-                (void)save_word_in_array(wordlist, &word_count, word);
-            }
+        if (already_exist(word, wordlist, size)) {
+            free(word);
+            continue;
         }
-    }
-    return word_count;
-}
 
-/**
- * @brief gibt die Liste der Wörter aus
- * @param wordlist die Liste die ausgegeben werden soll
- * @param size die Grösse der wordlist
- */
-static void print_wordlist(char *wordlist[], size_t size) {
-    (void)printf("-------------------------------------\n");
-    (void)printf("Wörter in sortierter Reihenfolge:\n\n");
-    for(size_t i = 0; i < size; i++) {
-        (void)printf("%s\n", wordlist[i]);
-    }
-    (void)printf("-------------------------------------\n");
-}
+        if (!strcmp(ABORT_KEY, word) || !strcmp("\n", word)) {
+            free(word);
+            break;
+        }
 
-/**
- * @brief Main entry point
- * @return Gibt EXISS_SUCCESS (=0) zurück bei success
- */
-int main(void) {
-    char *wordlist[INPUT_BUFFER];
-    size_t word_count = read_input(wordlist);
-    (void)sort_word_array(wordlist, word_count);
-    (void)print_wordlist(wordlist, word_count);
+        char *ptr = get_correct_size_ptr(word);
+        if (ptr == NULL) {
+            return EXIT_FAILURE;
+        }
+        wordlist[size] = ptr;
+        size++;
+    }
+    int count = get_count(wordlist);
+    sort_strings(wordlist, count - 1);
+    print_names(wordlist);
     return EXIT_SUCCESS;
 }
 
+/**
+ * @brief Liest ein maximal 20 Zeichen langes Wort von stdin ein und löscht alle Zeichen nach dem 20 Zeichen
+ * @return string of stdin
+ */
+char *get_word() {
+    char *word = malloc(20 * sizeof(char));
+    if (word == NULL || scanf("%19s", word) != 1) {
+        return NULL;
+    }
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF && c != ' ');
+    return word;
+}
+
+/**
+ * @brief Überprüft ob das letzte Wort von stdin bereits existiert
+ * @param word read input überprüft ob es bereits existiert
+ * @param words array bereits gelesene Wörter
+ * @param grösse des arrays
+ * @return 1 wenn es bereits existiert
+ *         0 wenn es ein neues Wort ist
+ */
+int already_exist(char *word, char *words[], int size) {
+    int i = 0;
+    while (i < size) {
+        if (!strcmp(words[i], word)) {
+            return 1;
+        }
+        i++;
+    }
+    return 0;
+}
+
+/**
+ * @brief kopiert eine 20 Zeichen langen String zu einem passenden String
+ * @param word das auf die richtige Grösse gebracht werden soll
+ * @return pointer zeigt auf grösse angepassten string
+ */
+char *get_correct_size_ptr(char *word) {
+    size_t n = strlen(word);
+    char *ptr = malloc((n + 1) * sizeof(char));
+    if (ptr == NULL) {
+        return NULL;
+    }
+    strcpy(ptr, word);
+    free(word);
+    return ptr;
+}
+
+/**
+ * @brief gibt anzahl gelesene Wörter
+ * @param liste mit gelesenen Wörtern
+ * @return anzahl von Wörtern
+ */
+int get_count(char *list[]) {
+    int count = 0;
+    for (int i = 0; i < WORDLIST_COUNT; i++) {
+        if (list[i] == NULL) {
+            break;
+        }
+        count++;
+    }
+    return count;
+}
+
+/**
+ * @brief sortiert den Array alphabetisch
+ * @param arr zu sortierender Array
+ * @param n länge des Arrays
+ */
+void sort_strings(char *arr[], int n) {
+    for (int i = 1; i <= n; i++) {
+        for (int j = 0; j <= n - i; j++) {
+            if (strcmp(arr[j], arr[j + 1]) > 0) {
+                char *temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+/**
+ * @brief gibt die Wörter der Liste aus
+ * @param names Array der ausgegeben werden soll
+ */
+void print_names(char *names[]) {
+    int i;
+    printf("\nSortierte Liste:\n");
+    printf("---------------------------\n");
+    for (i = 0; i < WORDLIST_COUNT; ++i) {
+        char *word = names[i];
+        if (word == NULL) {
+            break;
+        }
+        printf("%s\n", word);
+    }
+    printf("---------------------------\n");
+}
