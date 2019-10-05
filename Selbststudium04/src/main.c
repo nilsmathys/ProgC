@@ -9,12 +9,19 @@
 #include <string.h>
 #include "array.h"
 
+///@brief Die Grösse des Input Arrays
 #define INPUT_BUFFER 100
+///@brief Die Grösse die ein Input maximal haben kann
 #define WORD_LENGTH_BUFFER 20
+///@brief der Schlüssel um die Eingabe zu beenden
 #define ABORT_KEY "ZZZ"
 
-
-
+/**
+ * @brief Liest ein Wort von der input line. Speichert nur die Wörter
+ *      die in der Range des WORD_LENGTH_BUFFER liegen.
+ * @param word der Array bei dem die Inputs gespeichert werden sollen. \0 wird automatisch immer mitgespeichert
+ * @return Die Grösse des ganzen Inputs auch wenn nicht das ganze Wort gespeichert wurde
+ */
 static size_t read_input_line(char word[]) {
     initialize_array_to_zero(word, WORD_LENGTH_BUFFER);
     size_t index = 0;
@@ -26,7 +33,7 @@ static size_t read_input_line(char word[]) {
         }
         index++;
     }
-    return index-1;
+    return index-1; //-1 wegen des line break
 }
 
 static size_t read_input(char *wordlist[]) {
