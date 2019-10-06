@@ -1,83 +1,153 @@
-/* ------------------------------------------------------------------------------
- * title: 	SelbstStudium05				                	-
- * author:  Nils Mathys				      	-
- * date:    29.09.2019				                        -
- * description: main for LinkedList			                -
- --------------------------------------------------------------------------------
+/**
+ * title: Selbststudium 05 - Linked-List
+ * created by Nils Mathys
+ * date: 05.10.2019
+ * @file main.c
+ * @brief Main file welches die Session abwickelt
  */
-
-#include <stdio.h>
+#include "person.h"
+#include "list.h"
+#include "flusher.c"
 #include <stdlib.h>
-#include <string.h>
-#include "main.h"
-#include "listNode.c"
+#include <stdio.h>
 
-Person* read_person() {
-    char *name = (char *) malloc(sizeof(char) * 8);
-    char *firstname = (char *) malloc(sizeof(char) * 8);
-    unsigned age = 0;
-    (void) printf("Please give a name: ");
-    if(scanf("%s", name) > 0){
-        (void) printf("\nPlease give a firstname: ");
-        if (scanf("%s", firstname) > 0) {
-            (void) printf("\nPlease give an age: ");
-            if(scanf("%u", &age) > 0) {
-                Person *person = (Person *) malloc(sizeof(Person));
-                if(person) {
-                    person->name = name;
-                    person->firstname = firstname;
-                    person->age = age;
-                    return person;
-                }
-            } else {
-                (void) printf("\nThe value from the age is not correct\n");
-            }
-        } else {
-            printf("\nA not correct firstname has been given\n");}
-    } else {
-        printf("\nA not correct name has been given\n");
-    }
-    return NULL;
-}
-
-int main(int argc, char* argv[]) {
-    ListNode *listNode;
-    char command = '\0';
-    listNode = new_list();
-    do {
-        (void) printf("Enter a command: I(nsert), R(emove), S(how), C(lear), E(nd)\n");
-        if (scanf(" %c", &command) > 0) {
-            switch (command) {
-                case 'I':
-                    if(insert_person(read_person(), listNode) == 1) {
-                        (void) printf("Person added\n");
-                    } else {
-                        (void) printf("Person not added\n");
-                    }
-                    break;
-                case 'R':
-                    if(delete_person(read_person(), listNode) == 1) {
-                        (void) printf("Person removed\n");
-                    } else {
-                        (void) printf("Person not found\n");
-                    }
-                    break;
-                case 'S':
-                    (void) printf("Show List:\n");
-                    output_list(listNode);
-                    break;
-                case 'C':
-                    (void) printf("Cleaning up\n");
-                    clear_list(listNode);
-                    listNode = new_list();
-                    break;
-                case 'E':
-                    (void) printf("Good bye\n");
-                    break;
-                default:
-                    (void)printf("Please enter a command\n");
-                    break;
-            }
+/**
+ * @brief Main entry point.
+ * @details Behandelt verschiedene Funktionen wie Insert, Remove, Show, Clear oder Create
+ * @returns Returns EXIT_SUCCESS (=0) bei success,
+ *                  EXIT_FAILURE (=1) wenn mehr als ein Argument gegeben ist.
+ */
+int main(int argc, char *argv[]) {
+    ListElement *list = malloc(sizeof(ListElement));
+    persondb_list_create(list);
+    int critical_error = 0;
+    char c = 0;
+    while (critical_error == 0) {
+        printf("I(nsert), R(emove), S(how), C(lear), E(nd): ");
+        scanf("%c", &c);
+        if (c == 'E' || c == 'e') {
+            break;
         }
-    } while (command != 'E');
+        switch (c) {
+            case 'i':
+            case 'I': {
+                char name[19];
+                char firstname[19];
+                Person person = (Person) {
+                        .name = {*name},
+                        .firstname = {*firstname},
+                        .age = 0
+                };
+                persondb_prompt_person(&person);
+                ListElement *el = persondb_list_insert(list, &person);
+                if (!el) {
+                    critical_error = 1;
+                }
+                break;
+            }
+            case 'r':
+            case 'R': {
+                char name[19];
+                char firstname[19];
+                Person person = (Person) {
+                        .name = {*name},
+                        .firstname = {*firstname},
+                        .age = 0
+                };
+                persondb_prompt_person(&person);
+                int res = persondb_list_remove(list, &person);
+                printf("%d entries removed.\n", res);
+                break;
+
+            }
+            case 's':
+            case 'S': {
+                int res = persondb_list_show(list);
+                printf("%d entries printed.\n", res);
+                break;
+
+            }
+            case 'c':
+            case 'C': {
+                persondb_list_clear(&list);
+                printf("Cleared list.\n");
+                break;
+
+            }
+            default:
+                break;
+        }
+        flush_stdin();
+    }
+    if (critical_error == 1) {
+        printf("Ran out of memory. Exiting.\n");
+    }
 }
+
+//int main(int argc, char *argv[]) {
+//    ListElement *list = malloc(sizeof(ListElement));
+//    persondb_list_create(list);
+//    int critical_error = 0;
+//    char c = 0;
+//    int *size = 0;
+//    while (critical_error == 0) {
+//        printf("I(nsert), R(emove), S(how), C(lear), E(nd): ");
+//        scanf("%c", &c);
+//        if (c == 'E' || c == 'e') {
+//            break;
+//        }
+//        switch (c) {
+//            case 'i':
+//            case 'I': {
+//                char name[19];
+//                char firstname[19];
+//                Person person = (Person) {
+//                        .name = {*name},
+//                        .firstname = {*firstname},
+//                        .age = 0
+//                };
+//                persondb_prompt_person(&person);
+//                ListElement *el = persondb_list_insert(list, &person, size);
+//                if (!el) {
+//                    critical_error = 1;
+//                }
+//                break;
+//            }
+//            case 'r':
+//            case 'R': {
+//                char name[19];
+//                char firstname[19];
+//                Person person = (Person) {
+//                        .name = {*name},
+//                        .firstname = {*firstname},
+//                        .age = 0
+//                };
+//                persondb_prompt_person(&person);
+//                int res = persondb_list_remove(list, &person, size);
+//                printf("%d entries removed.\n", res);
+//                break;
+//
+//            }
+//            case 's':
+//            case 'S': {
+//                int res = persondb_list_show(list);
+//                printf("%d entries printed.\n", res);
+//                break;
+//
+//            }
+//            case 'c':
+//            case 'C': {
+//                persondb_list_clear(&list);
+//                printf("Cleared list.\n");
+//                break;
+//
+//            }
+//            default:
+//                break;
+//        }
+//        flush_stdin();
+//    }
+//    if (critical_error == 1) {
+//        printf("Ran out of memory. Exiting.\n");
+//    }
+//}

@@ -16,7 +16,7 @@
  * @details ermöglicht das Lesen der Wörter, auswerten der Wörter, das Überprüfen, ob sie bereits vorhanden sind
  * überprüft ob beendet wurde sortiert der array und druckt den array
  * @returns Returns EXIT_SUCCESS (=0) bei success,
- *                  EXIT_FAILURE (=1) wenn mer als ein Argument gegeben ist.
+ *                  EXIT_FAILURE (=1) wenn mehr als ein Argument gegeben ist.
  */
 int main(int argc, char *argv[]) {
     int size = 0;

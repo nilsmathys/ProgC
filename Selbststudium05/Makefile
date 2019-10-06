@@ -2,7 +2,7 @@
 TARGET        := bin/Selbststudium05
 
 # implementation files
-SOURCES       := src/main.c
+SOURCES       := src/main.c src/person.c src/list.c
 
 # test implementations
 TSTSOURCES    := tests/tests.c

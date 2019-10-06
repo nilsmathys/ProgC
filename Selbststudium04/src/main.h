@@ -1,7 +1,7 @@
-/** @file main.h
- *  @brief Main header to declare multiple function.
- *
- *  @authors Mika Ruch, Carlo Field, Tobias Zischler
+/**
+ * title: Selbststudium 04 - Pointer, Arrays, Strings
+ * created by Nils Mathys
+ * date: 05.10.2019
  */
 #ifndef DEV_MAIN_H
 #define DEV_MAIN_H

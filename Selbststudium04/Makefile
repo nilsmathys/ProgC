@@ -1,5 +1,5 @@
 # what to produce
-TARGET        := bin/Selbststudium042
+TARGET        := bin/Selbststudium04
 
 # implementation files
 SOURCES       := src/main.c
