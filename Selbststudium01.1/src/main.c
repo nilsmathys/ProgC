@@ -32,7 +32,7 @@ int main (int argc, char* argv[]) {
 			return EXIT_SUCCESS;
 			
 		} else{
-			(void)printf("Bitte eine Zahlen im Bereich von 0 bis 255 angeben.");
+			(void)printf("Bitte eine Zahlen im Bereich von 0 bis 255 angeben.\n");
 			return EXIT_FAILURE;
 		}		
 	} else if(argc == 3) {
@@ -63,16 +63,16 @@ int main (int argc, char* argv[]) {
 				return EXIT_SUCCESS;
 			
 			} else{
-				(void)printf("Bitte eine Zahlen im Bereich von 0 bis 255 angeben.");
+				(void)printf("Bitte eine Zahlen im Bereich von 0 bis 255 angeben.\n");
 				return EXIT_FAILURE;
 			}	
 			
 		} else {
-			(void)printf("Bitte eine Zahlen im Bereich von 0 bis 7 angeben.");
+			(void)printf("Bitte eine Zahl im Bereich von 0 bis 7 angeben.\n");
 			return EXIT_FAILURE;
 		}
 	} else {
-		(void)printf("Bitte als erstes Arrgument eine Zahl im Berreich 0 bis 255 angeben und als zweites Arrgument eine Zahl vom Berreich 0 bis 7.");
+		(void)printf("Bitte als erstes Arrgument eine Zahl im Berreich 0 bis 255 angeben und als zweites Arrgument eine Zahl vom Berreich 0 bis 7.\n");
 	}
 }
 

@@ -32,7 +32,7 @@ int main (int argc, char* argv[]) {
 
 
 	
-	printf("Anzahl zeichen: %i\n", anzahl_zeichen);
+	printf("Anzahl Zeichen: %i\n", anzahl_zeichen);
 	printf("Anzahl Wörter: %i\n", anzahl_woerter);
 
 }
