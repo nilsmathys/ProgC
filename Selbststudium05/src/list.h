@@ -28,7 +28,7 @@ struct LE {
  */
 ListElement *persondb_list_insert(ListElement *list, Person *content);
 
-//ListElement *persondb_list_insert(ListElement *list, Person *content, int *size);
+
 
 /**
  * @brief erntfertn eine Person von der Liste
@@ -38,7 +38,7 @@ ListElement *persondb_list_insert(ListElement *list, Person *content);
  */
 int persondb_list_remove(ListElement *list, Person *content);
 
-//int persondb_list_remove(ListElement *list, Person *content, int *size);
+
 
 /**
  * @brief gibt die Liste aus

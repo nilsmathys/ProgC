@@ -39,35 +39,6 @@ ListElement *persondb_list_insert(ListElement *list, Person *content) {
     return new;
 }
 
-//// Nimmt eine Liste, eine neue Person zum Einfügen und eine Vergleichsfunktion
-//// Gibt einen Pointer auf das neue Listenelement zurück
-//ListElement *persondb_list_insert(ListElement *list, Person *content, int *size) {
-//    // speichert zwei Elemente zur bearbeitung, das aktuelle und das nächste der Liste
-//    // fügen das neue Element zwische ihnen ein, sobald man mit der compare function die richtige Stelle gefunden hat
-//    ListElement *current = list;
-//    ListElement *next = list->next;
-//    while (list != next && persondb_compare_person(next->content, *content) > 0) {
-//        ListElement *n = next->next;
-//        current = next;
-//        next = n;
-//    }
-//    // Übereinstimmung gefunden, Person wir vor der nächsten platziert
-//    ListElement *new = malloc(sizeof(ListElement));
-//    if (!new) {
-//        // Speicher konnte nicht zugeordnet werden.
-//        return NULL;
-//    }
-//    *new = (ListElement){
-//            .content = *content,
-//            .next = next
-//    };
-//    *size++;
-//    //printf("Grösse der Liste : %d\n", *size);
-//
-//    current->next = new;
-//    return new;
-//}
-
 /**
  * @brief erntfertn eine Person von der Liste
  * @param list Person die entfernt werden soll
@@ -80,11 +51,16 @@ int persondb_list_remove(ListElement *list, Person *content) {
     ListElement *next = list->next;
     int res = persondb_compare_person(next->content, *content);
     while (res != 0) {
+        if(current != current->next) {
+            current = current->next;
+        }
+        if(current == list) {
+            return ndeleted; //bricht ab wenn keine Übereinstimmung gefunden
+        }
         ListElement *n = next->next;
         current = next;
         next = n;
         res = persondb_compare_person(next->content, *content);
-        printf("Schleife 1, res: %i\n", res);
     }
     while (res == 0) {
         // remove next
@@ -97,31 +73,6 @@ int persondb_list_remove(ListElement *list, Person *content) {
     }
     return ndeleted;
 }
-
-//int persondb_list_remove(ListElement *list, Person *content, int *size) {
-//    int ndeleted = 0;
-//    ListElement *current = list;
-//    ListElement *next = list->next;
-//    int res = persondb_compare_person(next->content, *content);
-//    while (res != 0) {
-//        ListElement *n = next->next;
-//        current = next;
-//        next = n;
-//        res = persondb_compare_person(next->content, *content);
-//        printf("Schleife 1, res: %i\n", res);
-//    }
-//    while (res == 0) {
-//        // remove next
-//        ListElement *n = next->next;
-//        current->next = n;
-//        free(next);
-//        ndeleted++;
-//        next = n;
-//        res = persondb_compare_person(next->content, *content);
-//        size--;
-//    }
-//    return ndeleted;
-//}
 
 
 
