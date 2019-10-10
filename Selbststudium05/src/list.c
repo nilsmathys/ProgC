@@ -95,7 +95,7 @@ int persondb_list_show(ListElement *list) {
     do {
         char output[57];
         persondb_format_person(output, ++i, current->content);
-        printf(output);
+        printf("%s", output);
         current = next;
         next = current->next;
     } while (list != current);
@@ -106,31 +106,21 @@ int persondb_list_show(ListElement *list) {
  *  @brief erntfernt alle Elemente der Liste
  * @param list pointer of pointer von der Liste
  */
-void persondb_list_clear(ListElement **list) {
-    // wirft die gesamte Liste weg und gibt ein neues leeres sentinel Element zurück
-    if (*list == (*list)->next) {
-        // nur Sentinel in der Liste
+void persondb_list_clear(ListElement *list) {
+    if(list == list->next) {
         return;
     }
-    // entfernt jedes Listenelement manuell um Speicherverwaltung zu verbessern
-    ListElement *current = (*list)->next;
+    ListElement *current = list->next;
     ListElement *next = current->next;
     do {
         ListElement *delete = current;
         current = next;
         next = current->next;
-        // gibt das gelöscte Element frei, um es dem System zur Verfügung zu stellen
         free(delete);
-        // delete 'delete'
-    } while (*list != current);
-    free(*list);
-    *list = malloc(sizeof(ListElement));
-    **list = (ListElement){
-            .content = (Person){"", "", 0},
-            .next = *list
-    };
-    return;
+    } while(list != current);
+    list->next = list;
 }
+
 
 /**
  * @brief generiert eine neue Liste

@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
             }
             case 'c':
             case 'C': {
-                persondb_list_clear(&list);
+                persondb_list_clear(list);
                 printf("Cleared list.\n");
                 break;
 

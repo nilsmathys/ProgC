@@ -51,7 +51,7 @@ int persondb_list_show(ListElement *list);
  *  @brief erntfernt alle Elemente der Liste
  * @param list pointer of pointer von der Liste
  */
-void persondb_list_clear(ListElement **list);
+void persondb_list_clear(ListElement *list);
 
 /**
  * @brief generiert eine neue Liste

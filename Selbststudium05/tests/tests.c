@@ -131,7 +131,7 @@ static void test_list_clear(void) {
     persondb_list_insert(list, &(Person) {"dname", "firstname", 0});
     persondb_list_insert(list, &(Person) {"ename", "firstname", 0});
     CU_ASSERT_EQUAL(persondb_list_show(list), 5);
-    persondb_list_clear(&list);
+    persondb_list_clear(list);
     CU_ASSERT_EQUAL(persondb_list_show(list), 0);
 }
 
