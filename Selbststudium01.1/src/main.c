@@ -44,7 +44,7 @@ int main (int argc, char* argv[]) {
 			if(check == 1 && erstes_argument >= 0 && erstes_argument <= 255) {
 				uint8_t first_argu = (uint8_t) erstes_argument;
 				uint8_t second_argu = (uint8_t) zweitezahl;
-				printf("	       dec   hex   oct\n");
+				printf("               dec   hex   oct\n");
 				printf("Your input   : %3d  %#04x  %.4o\n", first_argu, first_argu, first_argu);
 				
 				int bit_set = (first_argu >> second_argu) & 1u;	
@@ -64,16 +64,18 @@ int main (int argc, char* argv[]) {
 			
 			} else{
 				(void)printf("Bitte eine Zahlen im Bereich von 0 bis 255 angeben.\n");
-				return EXIT_FAILURE;
+
 			}	
 			
 		} else {
 			(void)printf("Bitte eine Zahl im Bereich von 0 bis 7 angeben.\n");
-			return EXIT_FAILURE;
+
 		}
 	} else {
 		(void)printf("Bitte als erstes Arrgument eine Zahl im Berreich 0 bis 255 angeben und als zweites Arrgument eine Zahl vom Berreich 0 bis 7.\n");
+
 	}
+    return EXIT_FAILURE;
 }
 
 

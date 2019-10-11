@@ -19,6 +19,8 @@
 #define ERRFILE "stderr.txt"
 #define INFILE_Test "stim-test.input"
 #define INFILE_Test1 "stim-test1.input"
+#define INFILE_Test_with_tab "stim-test-with-tab.input"
+#define INFILE_Test_with_space "stim-test-with-space.input"
 
 static int setup(void) {
     remove_file_if_exists(OUTFILE);
@@ -35,7 +37,7 @@ static void test_main_with_test(void) {
     const char *out_txt[] = {
                                 "Eingabe: ",
                                 "Anzahl Zeichen: 4\n",
-                                "Anzahl Wörter: 1\n",
+                                "Anzahl Woerter: 1\n",
                             };
     int exit_code = system(XSTR(TARGET) " 1>" OUTFILE " 2>" ERRFILE " <" INFILE_Test);
     CU_ASSERT_EQUAL(exit_code, 0);
@@ -46,17 +48,45 @@ static void test_main_with_test_test_test(void) {
     const char *out_txt[] = {
                                 "Eingabe: ",
                                 "Anzahl Zeichen: 14\n",
-                                "Anzahl Wörter: 3\n",
+                                "Anzahl Woerter: 3\n",
                             };
     int exit_code = system(XSTR(TARGET) " 1>" OUTFILE " 2>" ERRFILE " <" INFILE_Test1);
     CU_ASSERT_EQUAL(exit_code, 0);
     assert_lines(OUTFILE, out_txt, sizeof(out_txt)/sizeof(*out_txt));
 }
 
+static void test_main_with_tab(void) {
+    const char *out_txt[] = {
+                                "Eingabe: ",
+                                "Anzahl Zeichen: 5\n",
+                                "Anzahl Woerter: 1\n",
+                            };
+    int exit_code = system(XSTR(TARGET) " 1>" OUTFILE " 2>" ERRFILE " <" INFILE_Test_with_tab);
+    CU_ASSERT_EQUAL(exit_code, 0);
+    assert_lines(OUTFILE, out_txt, sizeof(out_txt)/sizeof(*out_txt));
+}
+
+static void test_main_with_space(void) {
+    const char *out_txt[] = {
+                                "Eingabe: ",
+                                "Anzahl Zeichen: 5\n",
+                                "Anzahl Woerter: 1\n",
+                            };
+    int exit_code = system(XSTR(TARGET) " 1>" OUTFILE " 2>" ERRFILE " <" INFILE_Test_with_space);
+    CU_ASSERT_EQUAL(exit_code, 0);
+    assert_lines(OUTFILE, out_txt, sizeof(out_txt)/sizeof(*out_txt));
+}
+
+
+
 
 int main(void) {
-    TestMainBasic("Zaehlen_von_Zeichen_und_Woertern", setup, teardown
-    ,test_main_with_test
-    ,test_main_with_test_test_test
+    TestMainBasic("Zaehlen_von_Zeichen_und_Woertern",
+            setup,
+            teardown,
+            test_main_with_test,
+            test_main_with_test_test_test,
+            test_main_with_tab,
+            test_main_with_space
     );
 }

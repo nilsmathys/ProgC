@@ -26,6 +26,9 @@ int main(int argc, char *argv[]) {
         printf("I(nsert), R(emove), S(how), C(lear), E(nd): ");
         scanf("%c", &c);
         if (c == 'E' || c == 'e') {
+            persondb_list_clear(list);
+            free(list);
+            printf("Good bye\n");
             break;
         }
         switch (c) {
