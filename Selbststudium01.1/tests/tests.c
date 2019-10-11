@@ -29,6 +29,7 @@ static int teardown(void) {
     return 0;
 }
 
+//XSTR(TARGET) " EINGABE 1>..
 
 static void test_main_with_no_arg(void) {
     const char *out_txt[] = { "Bitte als erstes Arrgument eine Zahl im Berreich 0 bis 255 angeben und als zweites Arrgument eine Zahl vom Berreich 0 bis 7.\n" };

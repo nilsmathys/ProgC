@@ -116,16 +116,16 @@ static void test_Month31(void) {
 }
 
 static void test_leapYearTrue(void) {
-    int year = 2019;
+    int year = 2020;
     int result =  schaltjahr(year);
-    CU_ASSERT_EQUAL(result, 0);
+    CU_ASSERT_EQUAL(result, 1);
 }
 
 
 static void test_leapYearFalse(void) {
-    int year = 2020;
+    int year = 2019;
     int result = schaltjahr(year);
-    CU_ASSERT_EQUAL(result, 1);
+    CU_ASSERT_EQUAL(result, 0);
 }
 
 
