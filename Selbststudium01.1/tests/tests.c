@@ -34,48 +34,56 @@ static void test_main_with_no_arg(void) {
     const char *out_txt[] = { "Bitte als erstes Arrgument eine Zahl im Berreich 0 bis 255 angeben und als zweites Arrgument eine Zahl vom Berreich 0 bis 7.\n" };
     int exit_code = system(XSTR(TARGET) " 1>" OUTFILE " 2>" ERRFILE);
     CU_ASSERT_EQUAL(exit_code, 1 << 8);
+    assert_lines(OUTFILE, out_txt, sizeof(out_txt)/sizeof(*out_txt));
 }
 
 static void test_main_with_three_arg(void) {
     const char *out_txt[] = { "Bitte als erstes Arrgument eine Zahl im Berreich 0 bis 255 angeben und als zweites Arrgument eine Zahl vom Berreich 0 bis 7.\n" };
     int exit_code = system(XSTR(TARGET) " 1 2 3 1>" OUTFILE " 2>" ERRFILE);
     CU_ASSERT_EQUAL(exit_code, 1 << 8);
+    assert_lines(OUTFILE, out_txt, sizeof(out_txt)/sizeof(*out_txt));
 }
 
 static void test_main_with_non_numeric_at_second_input_arg(void) {
     const char *out_txt[] = { "Bitte eine Zahl im Bereich von 0 bis 7 angeben.\n"};
     int exit_code = system(XSTR(TARGET) " 1 a 1>" OUTFILE " 2>" ERRFILE);
     CU_ASSERT_EQUAL(exit_code, 1 << 8);
+    assert_lines(OUTFILE, out_txt, sizeof(out_txt)/sizeof(*out_txt));
 }
 
 static void test_main_with_non_numeric_arg(void) {
     const char *out_txt[] = { "Bitte eine Zahlen im Bereich von 0 bis 255 angeben.\n" };
     int exit_code = system(XSTR(TARGET) " a 1>" OUTFILE " 2>" ERRFILE);
     CU_ASSERT_EQUAL(exit_code, 1 << 8);
+    assert_lines(OUTFILE, out_txt, sizeof(out_txt)/sizeof(*out_txt));
 }
 
 static void test_main_with_invalid_number_negativ_arg(void) {
     const char *out_txt[] = { "Bitte eine Zahlen im Bereich von 0 bis 255 angeben.\n" };
     int exit_code = system(XSTR(TARGET) " -5 1>" OUTFILE " 2>" ERRFILE);
     CU_ASSERT_EQUAL(exit_code, 1 << 8);
+    assert_lines(OUTFILE, out_txt, sizeof(out_txt)/sizeof(*out_txt));
 }
 
 static void test_main_with_invalid_number_at_second_input_negativ_arg(void) {
     const char *out_txt[] = { "Bitte eine Zahl im Bereich von 0 bis 7 angeben.\n" };
     int exit_code = system(XSTR(TARGET) " 1 -5 1>" OUTFILE " 2>" ERRFILE);
     CU_ASSERT_EQUAL(exit_code, 1 << 8);
+    assert_lines(OUTFILE, out_txt, sizeof(out_txt)/sizeof(*out_txt));
 }
 
 static void test_main_with_invalid_number_high_arg(void) {
     const char *out_txt[] = { "Bitte eine Zahlen im Bereich von 0 bis 255 angeben.\n" };
     int exit_code = system(XSTR(TARGET) " 256 1>" OUTFILE " 2>" ERRFILE);
     CU_ASSERT_EQUAL(exit_code, 1 << 8);
+    assert_lines(OUTFILE, out_txt, sizeof(out_txt)/sizeof(*out_txt));
 }
 
 static void test_main_with_invalid_number_at_second_input_high_arg(void) {
     const char *out_txt[] = { "Bitte eine Zahl im Bereich von 0 bis 7 angeben.\n" };
     int exit_code = system(XSTR(TARGET) " 1 8 1>" OUTFILE " 2>" ERRFILE);
     CU_ASSERT_EQUAL(exit_code, 1 << 8);
+    assert_lines(OUTFILE, out_txt, sizeof(out_txt)/sizeof(*out_txt));
 }
 
 static void test_main_with_10(void) {
